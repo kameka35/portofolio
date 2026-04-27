@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ntivuguruzwa Douceur — Portfolio</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet">
+  <script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        heading: ['Syne', 'sans-serif'],
+        body: ['DM Sans', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+  <style>
+  html, body { height: 100%; margin: 0; }
+  * { scroll-behavior: smooth; }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #E4FF1A, #00E5A0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .card-glass {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+  }
+
+  .skill-bar { transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: ''; position: absolute; bottom: -2px; left: 0;
+    width: 0; height: 2px; background: #E4FF1A;
+    transition: width 0.3s ease;
+  }
+  .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  .project-card:hover .project-overlay { opacity: 1; }
+  .project-overlay { opacity: 0; transition: opacity 0.4s ease; }
+
+  .pulse-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: #00E5A0;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,160,0.5); }
+    50% { box-shadow: 0 0 0 10px rgba(0,229,160,0); }
+  }
+
+  .timeline-line {
+    position: absolute; left: 19px; top: 0; bottom: 0;
+    width: 2px; background: rgba(228,255,26,0.2);
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; }
+  ::-webkit-scrollbar-thumb { background: #E4FF1A; border-radius: 3px; }
+
+  .tag { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 12px; border: 1px solid rgba(228,255,26,0.3); color: #E4FF1A; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .float-anim { animation: float 4s ease-in-out infinite; }
+
+  .code-block {
+    background: #111; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; overflow: hidden;
+  }
+  .code-block pre { padding: 16px; overflow-x: auto; font-size: 13px; line-height: 1.6; }
+  .code-header { background: rgba(255,255,255,0.05); padding: 8px 16px; font-size: 12px; color: #888; display: flex; justify-content: space-between; align-items: center; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #E4FF1A, #00E5A0);
+    color: #0a0a0a; font-weight: 700; border-radius: 999px;
+    padding: 12px 28px; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(228,255,26,0.3); }
+
+  .btn-outline {
+    border: 2px solid #E4FF1A; color: #E4FF1A; border-radius: 999px;
+    padding: 10px 26px; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline:hover { background: rgba(228,255,26,0.1); transform: translateY(-2px); }
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-[#0a0a0a] text-white font-body overflow-auto"><!-- NAV -->
+  <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background: rgba(10,10,10,0.85); backdrop-filter: blur(16px);">
+   <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between"><a href="#home" class="font-heading font-800 text-xl gradient-text">D.</a>
+    <div class="hidden md:flex items-center gap-8 text-sm"><a href="#home" class="nav-link text-gray-300 hover:text-white">Home</a> <a href="#about" class="nav-link text-gray-300 hover:text-white">About</a> <a href="#skills" class="nav-link text-gray-300 hover:text-white">Skills</a> <a href="#experience" class="nav-link text-gray-300 hover:text-white">Experience</a> <a href="#projects" class="nav-link text-gray-300 hover:text-white">Projects</a> <a href="#materials" class="nav-link text-gray-300 hover:text-white">Materials</a> <a href="#contact" class="nav-link text-gray-300 hover:text-white">Contact</a>
+    </div><button id="mobile-toggle" class="md:hidden text-white"><i data-lucide="menu" style="width:24px;height:24px;"></i></button>
+   </div>
+   <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 flex flex-col gap-3 text-sm"><a href="#home" class="text-gray-300 hover:text-white py-1">Home</a> <a href="#about" class="text-gray-300 hover:text-white py-1">About</a> <a href="#skills" class="text-gray-300 hover:text-white py-1">Skills</a> <a href="#experience" class="text-gray-300 hover:text-white py-1">Experience</a> <a href="#projects" class="text-gray-300 hover:text-white py-1">Projects</a> <a href="#materials" class="text-gray-300 hover:text-white py-1">Materials</a> <a href="#contact" class="text-gray-300 hover:text-white py-1">Contact</a>
+   </div>
+  </nav><!-- HERO -->
+  <section id="home" class="min-h-[100%] flex items-center relative overflow-hidden">
+   <div class="absolute inset-0" style="background: radial-gradient(ellipse at 20% 50%, rgba(228,255,26,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(0,229,160,0.05) 0%, transparent 50%);"></div>
+   <div class="max-w-6xl mx-auto px-6 pt-24 pb-16 relative z-10 w-full">
+    <div class="flex flex-col lg:flex-row items-center gap-12">
+     <div class="flex-1 fade-up">
+      <div class="flex items-center gap-3 mb-6">
+       <div class="pulse-dot"></div><span class="text-sm text-[#00E5A0] font-medium">Available for work</span>
+      </div>
+      <p class="text-gray-400 text-lg mb-3 font-medium">Hello, I'm</p>
+      <h1 id="hero-title" class="font-heading font-800 text-5xl md:text-7xl leading-tight mb-4">Ntivuguruzwa<br><span class="gradient-text">Douceur</span></h1>
+      <p id="hero-subtitle" class="text-xl md:text-2xl text-gray-400 mb-8 max-w-lg">Full-Stack Developer &amp; Software Engineer</p>
+      <div class="flex flex-wrap gap-4"><a href="#contact" class="btn-primary"><i data-lucide="send" style="width:18px;height:18px;"></i> Hire Me</a> <button onclick="downloadCV()" class="btn-outline"><i data-lucide="download" style="width:18px;height:18px;"></i> Download CV</button>
+      </div>
+      <div class="flex gap-8 mt-10 text-center">
+       <div>
+        <span class="font-heading font-700 text-3xl gradient-text">3+</span>
+        <p class="text-xs text-gray-500 mt-1">Years Exp.</p>
+       </div>
+       <div>
+        <span class="font-heading font-700 text-3xl gradient-text">15+</span>
+        <p class="text-xs text-gray-500 mt-1">Projects</p>
+       </div>
+       <div>
+        <span class="font-heading font-700 text-3xl gradient-text">10+</span>
+        <p class="text-xs text-gray-500 mt-1">Technologies</p>
+       </div>
+      </div>
+     </div>
+     <div class="flex-shrink-0 fade-up float-anim">
+      <div class="w-64 h-64 md:w-80 md:h-80 rounded-full relative" style="background: linear-gradient(135deg, rgba(228,255,26,0.15), rgba(0,229,160,0.15)); border: 2px solid rgba(228,255,26,0.2);">
+       <div class="absolute inset-4 rounded-full bg-[#1a1a1a] flex items-center justify-center"><span class="font-heading font-800 text-6xl md:text-7xl gradient-text">ND</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- ABOUT -->
+  <section id="about" class="py-24 relative">
+   <div class="max-w-6xl mx-auto px-6">
+    <div class="fade-up">
+     <p class="text-[#E4FF1A] font-heading font-600 text-sm tracking-widest uppercase mb-3">Who I Am</p>
+     <h2 class="font-heading font-700 text-4xl md:text-5xl mb-12">About <span class="gradient-text">Me</span></h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-12 items-start">
+     <div class="fade-up">
+      <p id="about-text" class="text-gray-400 leading-relaxed text-lg mb-6">I'm Ntivuguruzwa Douceur, a passionate Full-Stack Developer from Rwanda. I specialize in building scalable web applications and solving real-world problems through clean, efficient code. With 3+ years of experience, I bring ideas to life — from concept to deployment.</p>
+      <p class="text-gray-500 leading-relaxed mb-8">I thrive in collaborative environments, love learning new technologies, and enjoy mentoring fellow developers. My goal is to build software that makes a meaningful impact.</p>
+      <div class="grid grid-cols-2 gap-4 text-sm">
+       <div class="card-glass rounded-xl p-4">
+        <span class="text-gray-500">Name</span>
+        <p class="text-white font-medium mt-1">Ntivuguruzwa Douceur</p>
+       </div>
+       <div class="card-glass rounded-xl p-4">
+        <span class="text-gray-500">Location</span>
+        <p class="text-white font-medium mt-1">Rwanda</p>
+       </div>
+       <div class="card-glass rounded-xl p-4">
+        <span class="text-gray-500">Experience</span>
+        <p class="text-white font-medium mt-1">3+ Years</p>
+       </div>
+       <div class="card-glass rounded-xl p-4">
+        <span class="text-gray-500">Availability</span>
+        <p class="text-white font-medium mt-1">Full-time / Freelance</p>
+       </div>
+      </div>
+     </div>
+     <div class="fade-up">
+      <div class="card-glass rounded-2xl p-6">
+       <h3 class="font-heading font-600 text-lg mb-4 text-white">⏰ Working Hours</h3>
+       <div class="space-y-3">
+        <div class="flex justify-between items-center py-2 border-b border-white/5">
+         <span class="text-gray-400">Monday - Friday</span><span class="text-[#00E5A0] font-medium">08:00 — 18:00 CAT</span>
+        </div>
+        <div class="flex justify-between items-center py-2 border-b border-white/5">
+         <span class="text-gray-400">Saturday</span><span class="text-[#E4FF1A] font-medium">09:00 — 14:00 CAT</span>
+        </div>
+        <div class="flex justify-between items-center py-2">
+         <span class="text-gray-400">Sunday</span><span class="text-gray-600">Closed</span>
+        </div>
+       </div>
+       <p class="text-xs text-gray-600 mt-4">Response time: typically within 2-4 hours during working days</p>
+      </div>
+      <div class="card-glass rounded-2xl p-6 mt-4">
+       <h3 class="font-heading font-600 text-lg mb-3 text-white">📄 Curriculum Vitae</h3>
+       <p class="text-gray-500 text-sm mb-4">View my full CV or download a copy for your reference.</p>
+       <div class="flex gap-3"><button onclick="viewCV()" class="btn-primary text-sm py-2 px-5"><i data-lucide="eye" style="width:16px;height:16px;"></i> View CV</button> <button onclick="downloadCV()" class="btn-outline text-sm py-2 px-5"><i data-lucide="download" style="width:16px;height:16px;"></i> Download</button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- SKILLS -->
+  <section id="skills" class="py-24 relative" style="background: linear-gradient(180deg, transparent, rgba(228,255,26,0.02), transparent);">
+   <div class="max-w-6xl mx-auto px-6">
+    <div class="fade-up">
+     <p class="text-[#E4FF1A] font-heading font-600 text-sm tracking-widest uppercase mb-3">My Expertise</p>
+     <h2 class="font-heading font-700 text-4xl md:text-5xl mb-16">Skills &amp; <span class="gradient-text">Technologies</span></h2>
+    </div><!-- Hard Skills -->
+    <div class="fade-up mb-16">
+     <h3 class="font-heading font-600 text-2xl mb-8 flex items-center gap-3"><i data-lucide="code-2" style="width:24px;height:24px;color:#E4FF1A;"></i> Hard Skills</h3>
+     <div class="grid md:grid-cols-2 gap-x-12 gap-y-5">
+      <div class="skill-item">
+       <div class="flex justify-between mb-2">
+        <span class="text-sm text-gray-300">JavaScript / TypeScript</span><span class="text-xs text-[#E4FF1A]">92%</span>
+       </div>
+       <div class="h-2 rounded-full bg-white/5">
+        <div class="skill-bar h-full rounded-full bg-gradient-to-r from-[#E4FF1A] to-[#00E5A0]" data-width="92"></div>
+       </div>
+      </div>
+      <div class="skill-item">
+       <div class="flex justify-between mb-2">
+        <span class="text-sm text-gray-300">React / Next.js</span><span class="text-xs text-[#E4FF1A]">88%</span>
+       </div>
+       <div class="h-2 rounded-full bg-white/5">
+        <div class="skill-bar h-full rounded-full bg-gradient-to-r from-[#E4FF1A] to-[#00E5A0]" data-width="88"></div>
+       </div>
+      </div>
+      <div class="skill-item">
+       <div class="flex justify-between mb-2">
+        <span class="text-sm text-gray-300">Node.js / Express</span><span class="text-xs text-[#E4FF1A]">85%</span>
+       </div>
+       <div class="h-2 rounded-full bg-white/5">
+        <div class="skill-bar h-full rounded-full bg-gradient-to-r from-[#E4FF1A] to-[#00E5A0]" data-width="85"></div>
+       </div>
+      </div>
+      <div class="skill-item">
+       <div class="flex justify-between mb-2">
+        <span class="text-sm text-gray-300">Python / Django</span><span class="text-xs text-[#E4FF1A]">80%</span>
+       </div>
+       <div class="h-2 rounded-full bg-white/5">
+        <div class="skill-bar h-full rounded-full bg-gradient-to-r from-[#E4FF1A] to-[#00E5A0]" data-width="80"></div>
+       </div>
+      </div>
+      <div class="skill-item">
+       <div class="flex justify-between mb-2">
+        <span class="text-sm text-gray-300">HTML / CSS / Tailwind</span><span class="text-xs text-[#E4FF1A]">95%</span>
+       </div>
+       <div class="h-2 rounded-full bg-white/5">
+        <div class="skill-bar h-full rounded-full bg-gradient-to-r from-[#E4FF1A] to-[#00E5A0]" data-width="95"></div>
+       </div>
+      </div>
+      <div class="skill-item">
+       <div class="flex justify-between mb-2">
+        <span class="text-sm text-gray-300">PostgreSQL / MongoDB</span><span class="text-xs text-[#E4FF1A]">82%</span>
+       </div>
+       <div class="h-2 rounded-full bg-white/5">
+        <div class="skill-bar h-full rounded-full bg-gradient-to-r from-[#E4FF1A] to-[#00E5A0]" data-width="82"></div>
+       </div>
+      </div>
+      <div class="skill-item">
+       <div class="flex justify-between mb-2">
+        <span class="text-sm text-gray-300">Git / GitHub</span><span class="text-xs text-[#E4FF1A]">90%</span>
+       </div>
+       <div class="h-2 rounded-full bg-white/5">
+        <div class="skill-bar h-full rounded-full bg-gradient-to-r from-[#E4FF1A] to-[#00E5A0]" data-width="90"></div>
+       </div>
+      </div>
+      <div class="skill-item">
+       <div class="flex justify-between mb-2">
+        <span class="text-sm text-gray-300">Docker / CI-CD</span><span class="text-xs text-[#E4FF1A]">75%</span>
+       </div>
+       <div class="h-2 rounded-full bg-white/5">
+        <div class="skill-bar h-full rounded-full bg-gradient-to-r from-[#E4FF1A] to-[#00E5A0]" data-width="75"></div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Soft Skills -->
+    <div class="fade-up mb-16">
+     <h3 class="font-heading font-600 text-2xl mb-8 flex items-center gap-3"><i data-lucide="heart" style="width:24px;height:24px;color:#00E5A0;"></i> Soft Skills</h3>
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="card-glass rounded-xl p-5 text-center hover:border-[#E4FF1A]/30 transition-colors">
+       <span class="text-2xl mb-2 block">🧠</span>
+       <p class="text-sm text-gray-300">Problem Solving</p>
+      </div>
+      <div class="card-glass rounded-xl p-5 text-center hover:border-[#E4FF1A]/30 transition-colors">
+       <span class="text-2xl mb-2 block">🤝</span>
+       <p class="text-sm text-gray-300">Team Collaboration</p>
+      </div>
+      <div class="card-glass rounded-xl p-5 text-center hover:border-[#E4FF1A]/30 transition-colors">
+       <span class="text-2xl mb-2 block">💬</span>
+       <p class="text-sm text-gray-300">Communication</p>
+      </div>
+      <div class="card-glass rounded-xl p-5 text-center hover:border-[#E4FF1A]/30 transition-colors">
+       <span class="text-2xl mb-2 block">⏱️</span>
+       <p class="text-sm text-gray-300">Time Management</p>
+      </div>
+      <div class="card-glass rounded-xl p-5 text-center hover:border-[#E4FF1A]/30 transition-colors">
+       <span class="text-2xl mb-2 block">🔄</span>
+       <p class="text-sm text-gray-300">Adaptability</p>
+      </div>
+      <div class="card-glass rounded-xl p-5 text-center hover:border-[#E4FF1A]/30 transition-colors">
+       <span class="text-2xl mb-2 block">🎯</span>
+       <p class="text-sm text-gray-300">Attention to Detail</p>
+      </div>
+      <div class="card-glass rounded-xl p-5 text-center hover:border-[#E4FF1A]/30 transition-colors">
+       <span class="text-2xl mb-2 block">📚</span>
+       <p class="text-sm text-gray-300">Continuous Learning</p>
+      </div>
+      <div class="card-glass rounded-xl p-5 text-center hover:border-[#E4FF1A]/30 transition-colors">
+       <span class="text-2xl mb-2 block">🌟</span>
+       <p class="text-sm text-gray-300">Leadership</p>
+      </div>
+     </div>
+    </div><!-- Deployment -->
+    <div class="fade-up">
+     <h3 class="font-heading font-600 text-2xl mb-8 flex items-center gap-3"><i data-lucide="cloud" style="width:24px;height:24px;color:#E4FF1A;"></i> Deployment &amp; DevOps</h3>
+     <div class="flex flex-wrap gap-3"><span class="tag">AWS</span><span class="tag">Vercel</span><span class="tag">Netlify</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span><span class="tag">Heroku</span><span class="tag">Nginx</span><span class="tag">Linux Server</span><span class="tag">CI/CD Pipelines</span><span class="tag">DigitalOcean</span>
+     </div>
+    </div>
+   </div>
+  </section><!-- EXPERIENCE -->
+  <section id="experience" class="py-24">
+   <div class="max-w-6xl mx-auto px-6">
+    <div class="fade-up">
+     <p class="text-[#E4FF1A] font-heading font-600 text-sm tracking-widest uppercase mb-3">My Journey</p>
+     <h2 class="font-heading font-700 text-4xl md:text-5xl mb-16">Work <span class="gradient-text">Experience</span></h2>
+    </div>
+    <div class="relative pl-10 fade-up">
+     <div class="timeline-line"></div>
+     <div class="mb-12 relative">
+      <div class="absolute left-[-30px] top-1 w-5 h-5 rounded-full bg-[#E4FF1A] border-4 border-[#0a0a0a]"></div>
+      <div class="card-glass rounded-2xl p-6">
+       <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <h4 class="font-heading font-600 text-lg text-white">Full-Stack Developer</h4><span class="text-xs text-[#00E5A0] bg-[#00E5A0]/10 px-3 py-1 rounded-full">2022 — Present</span>
+       </div>
+       <p class="text-[#E4FF1A] text-sm mb-3">Freelance / Contract</p>
+       <p class="text-gray-500 text-sm leading-relaxed">Building web applications for clients across various industries. Handling full lifecycle from design to deployment using React, Node.js, and cloud services.</p>
+      </div>
+     </div>
+     <div class="mb-12 relative">
+      <div class="absolute left-[-30px] top-1 w-5 h-5 rounded-full bg-[#00E5A0] border-4 border-[#0a0a0a]"></div>
+      <div class="card-glass rounded-2xl p-6">
+       <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <h4 class="font-heading font-600 text-lg text-white">Junior Developer</h4><span class="text-xs text-[#E4FF1A] bg-[#E4FF1A]/10 px-3 py-1 rounded-full">2021 — 2022</span>
+       </div>
+       <p class="text-[#E4FF1A] text-sm mb-3">Tech Startup, Kigali</p>
+       <p class="text-gray-500 text-sm leading-relaxed">Developed and maintained REST APIs, collaborated on front-end features, and participated in agile sprints. Gained experience in production-level code and deployment workflows.</p>
+      </div>
+     </div>
+     <div class="relative">
+      <div class="absolute left-[-30px] top-1 w-5 h-5 rounded-full bg-gray-600 border-4 border-[#0a0a0a]"></div>
+      <div class="card-glass rounded-2xl p-6">
+       <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <h4 class="font-heading font-600 text-lg text-white">Intern Software Developer</h4><span class="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">2020 — 2021</span>
+       </div>
+       <p class="text-[#E4FF1A] text-sm mb-3">Local Tech Hub</p>
+       <p class="text-gray-500 text-sm leading-relaxed">Started programming journey with HTML, CSS, and JavaScript. Built small projects, learned version control, and contributed to open-source repositories.</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- PROJECTS -->
+  <section id="projects" class="py-24" style="background: linear-gradient(180deg, transparent, rgba(0,229,160,0.02), transparent);">
+   <div class="max-w-6xl mx-auto px-6">
+    <div class="fade-up">
+     <p class="text-[#E4FF1A] font-heading font-600 text-sm tracking-widest uppercase mb-3">My Work</p>
+     <h2 class="font-heading font-700 text-4xl md:text-5xl mb-16">Featured <span class="gradient-text">Projects</span></h2>
+    </div><!-- Project 1 -->
+    <div class="fade-up mb-12">
+     <div class="card-glass rounded-2xl overflow-hidden">
+      <div class="p-6 md:p-8">
+       <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+        <div>
+         <h3 class="font-heading font-700 text-2xl text-white mb-2">E-Commerce Platform</h3>
+         <div class="flex flex-wrap gap-2">
+          <span class="tag">React</span><span class="tag">Node.js</span><span class="tag">MongoDB</span><span class="tag">Stripe</span>
+         </div>
+        </div>
+        <div class="flex gap-2"><button onclick="toggleCode('proj1')" class="text-xs border border-white/10 text-gray-400 hover:text-white px-3 py-1 rounded-full transition-colors flex items-center gap-1"><i data-lucide="code-2" style="width:14px;height:14px;"></i> Code</button>
+        </div>
+       </div>
+       <p class="text-gray-500 text-sm leading-relaxed mb-4">Full-stack e-commerce solution with product management, cart system, user authentication, and payment integration. Deployed on AWS with CI/CD pipeline.</p>
+       <div id="proj1" class="hidden mt-4">
+        <div class="code-block">
+         <div class="code-header">
+          <span>server.js — Express API</span><button onclick="copyCode('proj1-code')" class="text-[#E4FF1A] hover:text-white text-xs flex items-center gap-1"><i data-lucide="copy" style="width:12px;height:12px;"></i> Copy</button>
+         </div>
+         <pre id="proj1-code" class="text-gray-300"><code>const express = require('express');
+const mongoose = require('mongoose');
+const app = express();
+
+// Product Schema
+const productSchema = new mongoose.Schema({
+  name: String,
+  price: Number,
+  category: String,
+  inStock: { type: Boolean, default: true }
+});
+
+const Product = mongoose.model('Product', productSchema);
+
+// Routes
+app.get('/api/products', async (req, res) =&gt; {
+  const products = await Product.find({ inStock: true });
+  res.json({ success: true, data: products });
+});
+
+app.post('/api/cart/checkout', async (req, res) =&gt; {
+  const { items, paymentToken } = req.body;
+  // Process payment via Stripe
+  const charge = await stripe.charges.create({
+    amount: calculateTotal(items),
+    currency: 'usd',
+    source: paymentToken
+  });
+  res.json({ success: true, orderId: charge.id });
+});</code></pre>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Project 2 -->
+    <div class="fade-up mb-12">
+     <div class="card-glass rounded-2xl overflow-hidden">
+      <div class="p-6 md:p-8">
+       <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+        <div>
+         <h3 class="font-heading font-700 text-2xl text-white mb-2">Task Management App</h3>
+         <div class="flex flex-wrap gap-2">
+          <span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL</span><span class="tag">Prisma</span>
+         </div>
+        </div>
+        <div class="flex gap-2"><button onclick="toggleCode('proj2')" class="text-xs border border-white/10 text-gray-400 hover:text-white px-3 py-1 rounded-full transition-colors flex items-center gap-1"><i data-lucide="code-2" style="width:14px;height:14px;"></i> Code</button>
+        </div>
+       </div>
+       <p class="text-gray-500 text-sm leading-relaxed mb-4">Collaborative task manager with real-time updates, drag-and-drop boards, team assignments, and analytics dashboard. Deployed on Vercel.</p>
+       <div id="proj2" class="hidden mt-4">
+        <div class="code-block">
+         <div class="code-header">
+          <span>tasks.ts — API Route</span><button onclick="copyCode('proj2-code')" class="text-[#E4FF1A] hover:text-white text-xs flex items-center gap-1"><i data-lucide="copy" style="width:12px;height:12px;"></i> Copy</button>
+         </div>
+         <pre id="proj2-code" class="text-gray-300"><code>import { prisma } from '@/lib/prisma';
+import { NextResponse } from 'next/server';
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const boardId = searchParams.get('boardId');
+
+  const tasks = await prisma.task.findMany({
+    where: { boardId },
+    include: { assignee: true, labels: true },
+    orderBy: { position: 'asc' }
+  });
+
+  return NextResponse.json(tasks);
+}
+
+export async function POST(request: Request) {
+  const body = await request.json();
+  const task = await prisma.task.create({
+    data: {
+      title: body.title,
+      description: body.description,
+      boardId: body.boardId,
+      assigneeId: body.assigneeId,
+      priority: body.priority || 'MEDIUM'
+    }
+  });
+  return NextResponse.json(task, { status: 201 });
+}</code></pre>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Project 3 -->
+    <div class="fade-up">
+     <div class="card-glass rounded-2xl overflow-hidden">
+      <div class="p-6 md:p-8">
+       <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+        <div>
+         <h3 class="font-heading font-700 text-2xl text-white mb-2">Weather Dashboard</h3>
+         <div class="flex flex-wrap gap-2">
+          <span class="tag">Python</span><span class="tag">Django</span><span class="tag">REST API</span><span class="tag">Chart.js</span>
+         </div>
+        </div>
+        <div class="flex gap-2"><button onclick="toggleCode('proj3')" class="text-xs border border-white/10 text-gray-400 hover:text-white px-3 py-1 rounded-full transition-colors flex items-center gap-1"><i data-lucide="code-2" style="width:14px;height:14px;"></i> Code</button>
+        </div>
+       </div>
+       <p class="text-gray-500 text-sm leading-relaxed mb-4">Real-time weather dashboard with location search, 7-day forecast, and interactive charts. Consumes OpenWeather API and displays data beautifully.</p>
+       <div id="proj3" class="hidden mt-4">
+        <div class="code-block">
+         <div class="code-header">
+          <span>views.py — Django View</span><button onclick="copyCode('proj3-code')" class="text-[#E4FF1A] hover:text-white text-xs flex items-center gap-1"><i data-lucide="copy" style="width:12px;height:12px;"></i> Copy</button>
+         </div>
+         <pre id="proj3-code" class="text-gray-300"><code>from django.http import JsonResponse
+import requests, os
+
+def get_weather(request):
+    city = request.GET.get('city', 'Kigali')
+    api_key = os.environ.get('WEATHER_API_KEY')
+    
+    url = f'https://api.openweathermap.org/data/2.5/forecast'
+    params = {
+        'q': city,
+        'appid': api_key,
+        'units': 'metric'
+    }
+    
+    response = requests.get(url, params=params)
+    data = response.json()
+    
+    forecast = [{
+        'date': item['dt_txt'],
+        'temp': item['main']['temp'],
+        'description': item['weather'][0]['description'],
+        'icon': item['weather'][0]['icon']
+    } for item in data['list'][:7]]
+    
+    return JsonResponse({
+        'city': city,
+        'forecast': forecast
+    })</code></pre>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- MATERIALS -->
+  <section id="materials" class="py-24">
+   <div class="max-w-6xl mx-auto px-6">
+    <div class="fade-up">
+     <p class="text-[#E4FF1A] font-heading font-600 text-sm tracking-widest uppercase mb-3">Resources</p>
+     <h2 class="font-heading font-700 text-4xl md:text-5xl mb-16">Tools &amp; <span class="gradient-text">Materials</span></h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 fade-up">
+     <div class="card-glass rounded-2xl p-6 hover:border-[#E4FF1A]/30 transition-all">
+      <div class="text-3xl mb-4">
+       💻
+      </div>
+      <h4 class="font-heading font-600 text-lg text-white mb-2">Development</h4>
+      <p class="text-gray-500 text-sm leading-relaxed">VS Code, Git, Terminal, Postman, Figma for design handoff, and Docker for containerization.</p>
+     </div>
+     <div class="card-glass rounded-2xl p-6 hover:border-[#E4FF1A]/30 transition-all">
+      <div class="text-3xl mb-4">
+       📦
+      </div>
+      <h4 class="font-heading font-600 text-lg text-white mb-2">Frameworks</h4>
+      <p class="text-gray-500 text-sm leading-relaxed">React, Next.js, Express.js, Django, Tailwind CSS, and Prisma ORM for database management.</p>
+     </div>
+     <div class="card-glass rounded-2xl p-6 hover:border-[#E4FF1A]/30 transition-all">
+      <div class="text-3xl mb-4">
+       ☁️
+      </div>
+      <h4 class="font-heading font-600 text-lg text-white mb-2">Cloud &amp; Hosting</h4>
+      <p class="text-gray-500 text-sm leading-relaxed">AWS (EC2, S3), Vercel, Netlify, DigitalOcean, and GitHub Actions for automated deployments.</p>
+     </div>
+    </div>
+   </div>
+  </section><!-- CONTACT -->
+  <section id="contact" class="py-24" style="background: linear-gradient(180deg, transparent, rgba(228,255,26,0.02));">
+   <div class="max-w-6xl mx-auto px-6">
+    <div class="fade-up">
+     <p class="text-[#E4FF1A] font-heading font-600 text-sm tracking-widest uppercase mb-3">Get In Touch</p>
+     <h2 class="font-heading font-700 text-4xl md:text-5xl mb-16">Contact <span class="gradient-text">Me</span></h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-12">
+     <div class="fade-up">
+      <p class="text-gray-400 text-lg mb-8">Have a project in mind or want to collaborate? Feel free to reach out. I'm always open to discussing new opportunities.</p>
+      <div class="space-y-5">
+       <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-[#E4FF1A]/10 flex items-center justify-center">
+         <i data-lucide="mail" style="width:20px;height:20px;color:#E4FF1A;"></i>
+        </div>
+        <div>
+         <p class="text-xs text-gray-500">Email</p>
+         <p id="contact-email" class="text-white">douceur@example.com</p>
+        </div>
+       </div>
+       <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-[#00E5A0]/10 flex items-center justify-center">
+         <i data-lucide="map-pin" style="width:20px;height:20px;color:#00E5A0;"></i>
+        </div>
+        <div>
+         <p class="text-xs text-gray-500">Location</p>
+         <p class="text-white">Kigali, Rwanda</p>
+        </div>
+       </div>
+       <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-[#E4FF1A]/10 flex items-center justify-center">
+         <i data-lucide="phone" style="width:20px;height:20px;color:#E4FF1A;"></i>
+        </div>
+        <div>
+         <p class="text-xs text-gray-500">Phone</p>
+         <p class="text-white">+250 7XX XXX XXX</p>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="fade-up">
+      <form id="contact-form" class="space-y-4">
+       <div><label for="name" class="text-sm text-gray-500 mb-1 block">Your Name</label> <input type="text" id="name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#E4FF1A]/50 transition-colors" placeholder="John Doe">
+       </div>
+       <div><label for="email" class="text-sm text-gray-500 mb-1 block">Your Email</label> <input type="email" id="email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#E4FF1A]/50 transition-colors" placeholder="john@example.com">
+       </div>
+       <div><label for="message" class="text-sm text-gray-500 mb-1 block">Message</label> <textarea id="message" rows="4" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#E4FF1A]/50 transition-colors resize-none" placeholder="Tell me about your project..."></textarea>
+       </div><button type="submit" class="btn-primary w-full justify-center"><i data-lucide="send" style="width:18px;height:18px;"></i> Send Message</button>
+       <div id="form-status" class="hidden text-center text-sm py-2 rounded-xl"></div>
+      </form>
+     </div>
+    </div>
+   </div>
+  </section><!-- FOOTER -->
+  <footer class="border-t border-white/5 py-8">
+   <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+    <p class="text-gray-600 text-sm">© 2024 Ntivuguruzwa Douceur. All rights reserved.</p>
+    <div class="flex gap-4"><a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-500 hover:text-[#E4FF1A] hover:bg-white/10 transition-all"><i data-lucide="github" style="width:18px;height:18px;"></i></a> <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-500 hover:text-[#E4FF1A] hover:bg-white/10 transition-all"><i data-lucide="linkedin" style="width:18px;height:18px;"></i></a> <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-500 hover:text-[#E4FF1A] hover:bg-white/10 transition-all"><i data-lucide="twitter" style="width:18px;height:18px;"></i></a>
+    </div>
+   </div>
+  </footer><!-- CV MODAL -->
+  <div id="cv-modal" class="fixed inset-0 z-[999] hidden items-center justify-center" style="background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);">
+   <div class="bg-[#111] border border-white/10 rounded-2xl max-w-2xl w-full mx-4 max-h-[85%] overflow-auto">
+    <div class="sticky top-0 bg-[#111] border-b border-white/10 p-5 flex items-center justify-between">
+     <h3 class="font-heading font-700 text-xl gradient-text">Curriculum Vitae</h3><button onclick="closeCVModal()" class="text-gray-500 hover:text-white"><i data-lucide="x" style="width:20px;height:20px;"></i></button>
+    </div>
+    <div class="p-6 space-y-6 text-sm">
+     <div>
+      <h4 class="font-heading font-600 text-[#E4FF1A] mb-2">PROFILE</h4>
+      <p class="text-gray-400 leading-relaxed">Full-Stack Developer with 3+ years of experience building scalable web applications. Proficient in JavaScript, TypeScript, React, Node.js, Python, and cloud deployment. Passionate about clean code and continuous improvement.</p>
+     </div>
+     <div>
+      <h4 class="font-heading font-600 text-[#E4FF1A] mb-2">EDUCATION</h4>
+      <p class="text-white font-medium">Bachelor of Science in Computer Science</p>
+      <p class="text-gray-500">University of Rwanda — 2018 – 2022</p>
+     </div>
+     <div>
+      <h4 class="font-heading font-600 text-[#E4FF1A] mb-2">EXPERIENCE</h4>
+      <div class="space-y-3">
+       <div>
+        <p class="text-white font-medium">Full-Stack Developer — Freelance</p>
+        <p class="text-gray-600 text-xs">2022 – Present</p>
+        <p class="text-gray-400 mt-1">Building web apps for clients using React, Next.js, Node.js, and cloud services.</p>
+       </div>
+       <div>
+        <p class="text-white font-medium">Junior Developer — Tech Startup, Kigali</p>
+        <p class="text-gray-600 text-xs">2021 – 2022</p>
+        <p class="text-gray-400 mt-1">Developed REST APIs and front-end features in agile environment.</p>
+       </div>
+      </div>
+     </div>
+     <div>
+      <h4 class="font-heading font-600 text-[#E4FF1A] mb-2">SKILLS</h4>
+      <p class="text-gray-400">JavaScript, TypeScript, React, Next.js, Node.js, Express, Python, Django, PostgreSQL, MongoDB, Docker, AWS, Git, Tailwind CSS, Prisma</p>
+     </div>
+     <div>
+      <h4 class="font-heading font-600 text-[#E4FF1A] mb-2">LANGUAGES</h4>
+      <p class="text-gray-400">Kinyarwanda (Native), English (Fluent), French (Intermediate)</p>
+     </div>
+     <div class="pt-2 border-t border-white/5"><button onclick="downloadCV()" class="btn-primary text-sm w-full justify-center"><i data-lucide="download" style="width:16px;height:16px;"></i> Download as Text File</button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+  // === DEFAULT CONFIG ===
+  const defaultConfig = {
+    background_color: '#0a0a0a',
+    surface_color: '#111111',
+    text_color: '#ffffff',
+    primary_action_color: '#E4FF1A',
+    secondary_action_color: '#00E5A0',
+    font_family: 'Syne',
+    font_size: 16,
+    hero_title: 'Ntivuguruzwa Douceur',
+    hero_subtitle: 'Full-Stack Developer & Software Engineer',
+    about_text: "I'm Ntivuguruzwa Douceur, a passionate Full-Stack Developer from Rwanda. I specialize in building scalable web applications and solving real-world problems through clean, efficient code. With 3+ years of experience, I bring ideas to life — from concept to deployment.",
+    contact_email: 'douceur@example.com'
+  };
+
+  // === ELEMENT SDK ===
+  function applyConfig(config) {
+    const bg = config.background_color || defaultConfig.background_color;
+    const surface = config.surface_color || defaultConfig.surface_color;
+    const text = config.text_color || defaultConfig.text_color;
+    const primary = config.primary_action_color || defaultConfig.primary_action_color;
+    const secondary = config.secondary_action_color || defaultConfig.secondary_action_color;
+    const font = config.font_family || defaultConfig.font_family;
+    const size = config.font_size || defaultConfig.font_size;
+
+    document.body.style.backgroundColor = bg;
+    document.body.style.fontFamily = `${font}, DM Sans, sans-serif`;
+    document.body.style.fontSize = `${size}px`;
+    document.body.style.color = text;
+
+    // Headings
+    document.querySelectorAll('.font-heading').forEach(el => {
+      el.style.fontFamily = `${font}, Syne, sans-serif`;
+    });
+
+    // Gradient text
+    document.querySelectorAll('.gradient-text').forEach(el => {
+      el.style.background = `linear-gradient(135deg, ${primary}, ${secondary})`;
+      el.style.webkitBackgroundClip = 'text';
+      el.style.webkitTextFillColor = 'transparent';
+    });
+
+    // Tags
+    document.querySelectorAll('.tag').forEach(el => {
+      el.style.borderColor = `${primary}50`;
+      el.style.color = primary;
+    });
+
+    // Buttons
+    document.querySelectorAll('.btn-primary').forEach(el => {
+      el.style.background = `linear-gradient(135deg, ${primary}, ${secondary})`;
+    });
+    document.querySelectorAll('.btn-outline').forEach(el => {
+      el.style.borderColor = primary;
+      el.style.color = primary;
+    });
+
+    // Card surfaces
+    document.querySelectorAll('.card-glass').forEach(el => {
+      el.style.background = `${surface}88`;
+    });
+
+    // CV modal bg
+    const cvModal = document.querySelector('#cv-modal > div');
+    if (cvModal) { cvModal.style.backgroundColor = surface; }
+
+    // Nav
+    document.getElementById('main-nav').style.background = `${bg}dd`;
+
+    // Text content
+    const heroTitle = document.getElementById('hero-title');
+    if (heroTitle) {
+      const name = config.hero_title || defaultConfig.hero_title;
+      const parts = name.split(' ');
+      heroTitle.innerHTML = parts.length > 1 ? `${parts.slice(0,-1).join(' ')}<br><span class="gradient-text">${parts[parts.length-1]}</span>` : `<span class="gradient-text">${name}</span>`;
+      heroTitle.querySelectorAll('.gradient-text').forEach(el => {
+        el.style.background = `linear-gradient(135deg, ${primary}, ${secondary})`;
+        el.style.webkitBackgroundClip = 'text';
+        el.style.webkitTextFillColor = 'transparent';
+      });
+    }
+
+    const heroSub = document.getElementById('hero-subtitle');
+    if (heroSub) heroSub.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+
+    const aboutText = document.getElementById('about-text');
+    if (aboutText) aboutText.textContent = config.about_text || defaultConfig.about_text;
+
+    const contactEmail = document.getElementById('contact-email');
+    if (contactEmail) contactEmail.textContent = config.contact_email || defaultConfig.contact_email;
+  }
+
+  if (window.elementSdk) {
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => applyConfig(config),
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+          { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); } },
+          { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } }
+        ],
+        borderables: [],
+        fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+        fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['hero_title', config.hero_title || defaultConfig.hero_title],
+        ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+        ['about_text', config.about_text || defaultConfig.about_text],
+        ['contact_email', config.contact_email || defaultConfig.contact_email]
+      ])
+    });
+  }
+
+  // === MOBILE MENU ===
+  document.getElementById('mobile-toggle').addEventListener('click', () => {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+  });
+  document.querySelectorAll('#mobile-menu a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('mobile-menu').classList.add('hidden'));
+  });
+
+  // === SCROLL ANIMATIONS ===
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // === SKILL BARS ===
+  const skillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.skill-bar').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.skill-item').forEach(el => {
+    el.querySelector('.skill-bar').style.width = '0%';
+    skillObserver.observe(el);
+  });
+
+  // === PROJECT CODE TOGGLES ===
+  function toggleCode(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('hidden');
+    lucide.createIcons();
+  }
+
+  function copyCode(id) {
+    const code = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.querySelector(`[onclick="copyCode('${id}')"]`);
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<span style="color:#00E5A0;">Copied!</span>';
+      setTimeout(() => { btn.innerHTML = orig; lucide.createIcons(); }, 1500);
+    });
+  }
+
+  // === CV ===
+  function viewCV() {
+    const modal = document.getElementById('cv-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    lucide.createIcons();
+  }
+  function closeCVModal() {
+    const modal = document.getElementById('cv-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+  document.getElementById('cv-modal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('cv-modal')) closeCVModal();
+  });
+
+  function downloadCV() {
+    const cvText = `NTIVUGURUZWA DOUCEUR — CURRICULUM VITAE
+==========================================
+
+PROFILE
+Full-Stack Developer with 3+ years of experience building scalable web applications.
+Proficient in JavaScript, TypeScript, React, Node.js, Python, and cloud deployment.
+
+EDUCATION
+Bachelor of Science in Computer Science
+University of Rwanda — 2018 – 2022
+
+EXPERIENCE
+Full-Stack Developer — Freelance (2022 – Present)
+Building web apps for clients using React, Next.js, Node.js, and cloud services.
+
+Junior Developer — Tech Startup, Kigali (2021 – 2022)
+Developed REST APIs and front-end features in agile environment.
+
+Intern Software Developer — Local Tech Hub (2020 – 2021)
+Built projects with HTML, CSS, JavaScript. Contributed to open source.
+
+SKILLS
+JavaScript, TypeScript, React, Next.js, Node.js, Express, Python, Django,
+PostgreSQL, MongoDB, Docker, AWS, Git, Tailwind CSS, Prisma
+
+LANGUAGES
+Kinyarwanda (Native), English (Fluent), French (Intermediate)
+
+CONTACT
+Email: ntivuguruzwadouceur@example.com
+Location: Kigali, Rwanda`;
+
+    const blob = new Blob([cvText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Ntivuguruzwa_Douceur_CV.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // === CONTACT FORM ===
+  document.getElementById('contact-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const status = document.getElementById('form-status');
+    status.classList.remove('hidden');
+    status.className = 'text-center text-sm py-3 rounded-xl bg-[#00E5A0]/10 text-[#00E5A0]';
+    status.textContent = '✓ Message sent successfully! I\'ll get back to you soon.';
+    e.target.reset();
+    setTimeout(() => status.classList.add('hidden'), 4000);
+  });
+
+  // Init icons
+  lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f2ce94af6f78a49',t:'MTc3NzI4MzMwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
